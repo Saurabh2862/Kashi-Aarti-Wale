@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#231008"/><stop offset="1" stop-color="#5b2310"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#f8a32e" stop-opacity=".3"/><stop offset="1" stop-color="#f8a32e" stop-opacity="0"/></radialGradient>
+    <linearGradient id="fire" x2="0" y2="1"><stop stop-color="#ffe9a6"/><stop offset="1" stop-color="#eb6b20"/></linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="957" cy="300" r="330" fill="url(#glow)"/>
+  <rect x="27" y="27" width="1146" height="576" rx="4" fill="none" stroke="#c58b48" stroke-opacity=".5"/>
+  <circle cx="975" cy="297" r="171" fill="none" stroke="#e4b565" stroke-opacity=".2"/>
+  <circle cx="975" cy="297" r="194" fill="none" stroke="#e4b565" stroke-opacity=".12"/>
+  <text x="80" y="119" font-family="Georgia,serif" font-size="20" letter-spacing="5" fill="#ebbc72">THE BLESSINGS OF KASHI</text>
+  <text x="75" y="242" font-family="Georgia,serif" font-size="79" fill="#fff4df">Kashi Aarti Wale</text>
+  <rect x="80" y="280" width="76" height="3" fill="#f2923c"/>
+  <text x="80" y="347" font-family="Georgia,serif" font-size="39" font-style="italic" fill="#e9bc77">A sacred beginning.</text>
+  <text x="80" y="400" font-family="Georgia,serif" font-size="39" font-style="italic" fill="#e9bc77">An unforgettable ceremony.</text>
+  <text x="80" y="481" font-family="Georgia,serif" font-size="23" fill="#e2cfb6">Weddings · Family rituals · Special occasions</text>
+  <text x="80" y="556" font-family="Georgia,serif" font-size="20" letter-spacing="3" fill="#fff4df">BOOK YOUR GANGA AARTI</text>
+  <path d="M982 137c-5 65-69 91-69 147 0 39 29 66 65 66 40 0 70-31 66-72-3-36-30-62-43-83 0 30-6 44-20 55 8-41 8-71 1-113Z" fill="url(#fire)"/>
+  <path d="M980 261c-4 27-25 40-25 61 0 15 10 27 24 27s26-11 26-27c0-21-17-37-25-61Z" fill="#fff0b6"/>
+  <path d="M866 372h223c-12 51-57 77-111 77-57 0-99-26-112-77Z" fill="#bf8135"/>
+  <path d="M858 367h237" stroke="#f9d28a" stroke-width="7" stroke-linecap="round"/>
+  <path d="M936 466h84" stroke="#e3b26a" stroke-width="6" stroke-linecap="round"/>
+</svg>

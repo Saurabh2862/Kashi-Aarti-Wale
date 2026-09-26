@@ -13,6 +13,17 @@ The previous Vinext build is available as `pnpm build:cloudflare`.
 - Build command: pnpm run build
 - Output directory: .next
 
+## Link sharing
+
+Share the public production domain listed under Vercel > Settings > Domains,
+not the protected `-git-main-` preview URL. A protected deployment returns
+Vercel's login preview to WhatsApp instead of this website's metadata.
+Keep preview protection enabled and make the production domain public.
+Set SITE_URL to your full public HTTPS URL if using a custom domain; otherwise
+VERCEL_PROJECT_PRODUCTION_URL provides the metadata image origin automatically.
+The shared JPEG is public/social/kashi-aarti-wale.jpg (1200 x 630).
+Previously sent messages may retain their cached preview after redeployment.
+
 ## Production database and admin
 
 The Vercel server accesses Cloudflare D1 through its authenticated HTTPS API.
