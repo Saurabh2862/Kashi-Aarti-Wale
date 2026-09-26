@@ -1,5 +1,6 @@
 import vinext from "vinext";
 import { fileURLToPath } from "node:url";
+import { readFileSync } from "node:fs";
 import { defineConfig } from "vite";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
@@ -52,17 +53,31 @@ export default defineConfig(async () => {
   const { cloudflare } = await import("@cloudflare/vite-plugin");
 
   return {
-    resolve: {
-      alias: [
-        { find: /^@\/db$/, replacement: fileURLToPath(new URL("./db/cloudflare.ts", import.meta.url)) },
-        { find: "@/lib/runtime-environment", replacement: fileURLToPath(new URL("./lib/runtime-environment.cloudflare.ts", import.meta.url)) },
-      ],
-    },
     server: {
       ...(managedLinux ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] } : {}),
-      ...(isCodexSeatbeltSandbox ? { watch: { useFsEvents: false, usePolling: true } } : {}),
+      watch: {
+        ignored: ["**/.next/**", "**/dist/**", "**/node_modules-stale/**"],
+        ...(isCodexSeatbeltSandbox ? { useFsEvents: false, usePolling: true } : {}),
+      },
     },
     plugins: [
+      {
+        name: "cloudflare-runtime-modules",
+        enforce: "pre",
+        load(id) {
+          // Vinext resolves tsconfig paths before aliases; select runtime code
+          // by the resolved file path so local D1 bindings remain available.
+          const normalized = id.split("?")[0].replaceAll("\\", "/");
+          for (const [source, replacement] of [
+            ["./db/index.ts", "./db/cloudflare.ts"],
+            ["./lib/runtime-environment.ts", "./lib/runtime-environment.cloudflare.ts"],
+          ]) {
+            if (normalized === fileURLToPath(new URL(source, import.meta.url)).replaceAll("\\", "/")) {
+              return readFileSync(new URL(replacement, import.meta.url), "utf8");
+            }
+          }
+        },
+      },
       vinext(),
       sites({ mockAuth: !managedLinux }),
       cloudflare({
