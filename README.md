@@ -29,6 +29,11 @@ The owner dashboard is available at `/admin`. Configure the ignored `.dev.vars` 
 
 Database migrations are stored in `drizzle/` and must be applied in filename order.
 
+## Vercel
+
+`pnpm build` creates the standard Next.js `.next` output. See [DEPLOYMENT.md](DEPLOYMENT.md)
+for Vercel settings and the required production database and admin environment variables.
+
 ## Security
 
 Secrets, local databases, dependencies, and build output are excluded from Git. Never commit `.dev.vars` or plaintext passwords.

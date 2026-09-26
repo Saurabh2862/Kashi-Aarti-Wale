@@ -1,4 +1,5 @@
 import vinext from "vinext";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import hostingConfig from "./.openai/hosting.json";
 import { readExecutionProfile } from "./scripts/execution-profile.mjs";
@@ -51,6 +52,12 @@ export default defineConfig(async () => {
   const { cloudflare } = await import("@cloudflare/vite-plugin");
 
   return {
+    resolve: {
+      alias: [
+        { find: /^@\/db$/, replacement: fileURLToPath(new URL("./db/cloudflare.ts", import.meta.url)) },
+        { find: "@/lib/runtime-environment", replacement: fileURLToPath(new URL("./lib/runtime-environment.cloudflare.ts", import.meta.url)) },
+      ],
+    },
     server: {
       ...(managedLinux ? { host: "0.0.0.0", allowedHosts: ["terminal.local"] } : {}),
       ...(isCodexSeatbeltSandbox ? { watch: { useFsEvents: false, usePolling: true } } : {}),

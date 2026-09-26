@@ -1,4 +1,4 @@
-import { env } from "cloudflare:workers";
+import { runtimeEnvironment } from "@/lib/runtime-environment";
 import { cookies } from "next/headers";
 
 export const ADMIN_COOKIE = "kaw_admin_session";
@@ -15,7 +15,7 @@ type SessionPayload = {
 };
 
 function getAdminEnvironment() {
-  const runtime = env as unknown as AdminEnvironment;
+  const runtime = runtimeEnvironment as AdminEnvironment;
   if (!runtime.ADMIN_PASSWORD_HASH || !runtime.ADMIN_SESSION_SECRET) {
     throw new Error("Admin authentication secrets are not configured.");
   }
