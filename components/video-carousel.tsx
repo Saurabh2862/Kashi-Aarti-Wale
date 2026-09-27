@@ -29,7 +29,7 @@ export function VideoCarousel({ videos }: { videos: GalleryVideo[] }) {
           touchStart.current = null;
         }}
       >
-        <video key={video.src} controls playsInline preload="none" poster={video.poster}>
+        <video key={video.src} controls playsInline preload="auto" poster={video.poster}>
           <source src={video.src} type="video/mp4" />
         </video>
         <button className="video-arrow video-arrow-prev" type="button" onClick={() => move(-1)} aria-label="Previous video">
