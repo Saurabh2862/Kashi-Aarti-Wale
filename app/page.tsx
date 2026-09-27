@@ -89,6 +89,7 @@ export default function Home() {
       </header>
 
       <section className="hero-shell">
+        <div className="hero-story">
         <video className="hero-media" autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
           <source src="/media/aarti-ceremony-04.mp4" type="video/mp4" />
         </video>
@@ -113,6 +114,8 @@ export default function Home() {
             <span><Check size={16} /> Complete samagri</span>
             <span><Check size={16} /> Pan-India service</span>
           </div>
+        </div>
+
         </div>
 
         <aside className="availability-card" aria-labelledby="availability-title">
