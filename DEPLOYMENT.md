@@ -16,7 +16,7 @@ Configure these server-only Production environment variables, then redeploy:
 - `ADMIN_SESSION_SECRET`: existing random signing secret from `.env.local`.
 - `SITE_URL`: `https://kashi-aarti-wale.vercel.app`.
 - Optional `GOOGLE_SITE_VERIFICATION`: Search Console verification token.
-- Optional `INSTAGRAM_URL`: the real business profile URL.
+- Instagram profile: edit `lib/social-links.ts` to update the visible link and structured data.
 
 Never prefix secrets with `NEXT_PUBLIC_`. Never commit credentials. Do not give
 preview deployments production database credentials; use a separate Neon branch.
@@ -62,3 +62,15 @@ retain old cached previews.
 References:
 - https://vercel.com/docs/environment-variables
 - https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap
+
+## Brand and policy configuration
+
+Set `SITE_URL` to your custom domain after connecting it in Vercel. Keep the
+branded icon at `public/favicon.svg` and the share card in `public/social/`.
+No builder attribution badge is part of the application UI.
+
+Privacy and terms templates are in `app/privacy/page.tsx` and `app/terms/page.tsx`.
+The business owner should review them for actual retention practices, service
+providers, and booking/refund terms, with qualified legal advice where needed.
+Update the policies whenever those practices change. Education copy in
+`components/about-section.tsx` is supplied by the owner, not independently verified.

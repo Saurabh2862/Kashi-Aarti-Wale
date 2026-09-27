@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import { VideoCarousel } from "@/components/video-carousel";
 import { SiteFooter } from "@/components/site-shell";
+import { AboutSection } from "@/components/about-section";
+import { INSTAGRAM_URL } from "@/lib/social-links";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
 
@@ -52,6 +54,16 @@ const occasions = [
     copy: "A coordinated spiritual opening for cultural programs, institutions, and large events.",
     label: "Large gatherings",
   },
+  {
+    title: "Rudrabhishek",
+    copy: "Arrange a Rudrabhishek puja with Priyanshu. Discuss your sankalp, venue, and ritual requirements with us.",
+    label: "Shiva puja",
+  },
+  {
+    title: "Puja Path",
+    copy: "Puja and path for your home or family occasion. Share the rituals you need so we can confirm the format, materials, and timing.",
+    label: "Puja & recitation",
+  },
 ];
 
 const bookingSteps = [
@@ -80,7 +92,7 @@ export default function Home() {
     description: "Ganga Aarti ceremonies for weddings, family rituals and special occasions across India.",
     telephone: "+917007667996",
     areaServed: "India",
-    sameAs: process.env.INSTAGRAM_URL ? [process.env.INSTAGRAM_URL] : [],
+    sameAs: [INSTAGRAM_URL],
   };
   return (
     <main>
@@ -98,6 +110,7 @@ export default function Home() {
         <nav aria-label="Primary navigation">
           <Link href="#occasions">Occasions</Link>
           <Link href="#gallery">Videos</Link>
+          <Link href="#about">About</Link>
           <Link href="#process">How it works</Link>
           <Link href="/track">Track booking</Link>
         </nav>
@@ -119,13 +132,12 @@ export default function Home() {
             <Sparkles size={15} /> From the heart of Kashi
           </p>
           <h1>
-            Bring the sacred
-            <em> Ganga Aarti </em>
-            to your celebration.
+            Book <em>Ganga Aarti</em>
+            &amp; Puja Path for your occasion.
           </h1>
           <p className="hero-lede">
-            Authentic Kashi-style ceremonies for weddings, family rituals, and
-            auspicious occasions, performed at your venue across India.
+            Ganga Aarti, Rudrabhishek, and family pujas with Priyanshu Pandey.
+            Share your date and venue for a ceremony plan and quote.
           </p>
           <div className="hero-proof">
             <span><Check size={16} /> Trained Vedic pandits</span>
@@ -151,6 +163,9 @@ export default function Home() {
                 <option value="griha-pravesh">Griha Pravesh</option>
                 <option value="anniversary">Anniversary</option>
                 <option value="durga-puja">Durga Puja</option>
+                <option value="rudrabhishek">Rudrabhishek</option>
+                <option value="puja-path">Puja Path</option>
+                <option value="other-puja">Other puja</option>
                 <option value="other">Other occasion</option>
               </select>
             </label>
@@ -171,9 +186,9 @@ export default function Home() {
       </section>
 
       <section className="trust-strip" aria-label="Service highlights">
-        <div><strong>2,000+</strong><span>locations served</span></div>
-        <div><strong>4.8 / 5</strong><span>family rating</span></div>
-        <div><strong>7 days</strong><span>booking support</span></div>
+        <div><strong>Ganga Aarti</strong><span>Weddings & celebrations</span></div>
+        <div><strong>Rudrabhishek</strong><span>Shiva puja</span></div>
+        <div><strong>Puja Path</strong><span>Home & family rituals</span></div>
         <div><ShieldCheck size={27} /><span>clear pricing & confirmation</span></div>
       </section>
 
@@ -202,6 +217,7 @@ export default function Home() {
             </article>
           ))}
         </div>
+        <div className="other-puja-note"><p><strong>Looking for another puja?</strong> Priyanshu also performs other pujas for homes, families, and special occasions. Tell us what you have in mind.</p><Link href="/book?occasion=other-puja">Discuss your puja <ArrowRight size={17} /></Link></div>
       </section>
 
       <section className="process-section" id="process">
@@ -237,6 +253,8 @@ export default function Home() {
         </div>
         <VideoCarousel />
       </section>
+
+      <AboutSection />
 
       <section className="included-section" aria-labelledby="included-title">
         <div className="included-copy">

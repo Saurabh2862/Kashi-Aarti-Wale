@@ -20,11 +20,11 @@ export const metadata: Metadata = {
   verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
   robots: { index: process.env.VERCEL_ENV !== "preview", follow: true },
   title: {
-    default: "Kashi Aarti Wale | Book Sacred Ganga Aarti Ceremonies",
+    default: "Kashi Aarti Wale | Ganga Aarti, Rudrabhishek & Puja Path",
     template: "%s | Kashi Aarti Wale",
   },
   description:
-    "Book authentic Kashi-style Ganga Aarti for weddings, family rituals, and auspicious events across India.",
+    "Book Ganga Aarti, Rudrabhishek, and Puja Path with Priyanshu Pandey (Sachin) for weddings, homes, and family occasions. Enquire about your date and venue.",
   icons: { icon: "/favicon.svg", shortcut: "/favicon.svg" },
   openGraph: {
     type: "website",
