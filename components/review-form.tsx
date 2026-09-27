@@ -9,6 +9,7 @@ export function ReviewForm({ services }: { services: Service[] }) {
   const [challenge, setChallenge] = useState("");
   const [uploads, setUploads] = useState(false);
   const [rating, setRating] = useState(0);
+  const [hasDraft, setHasDraft] = useState(false);
   const [files, setFiles] = useState<File[]>([]);
   const [busy, setBusy] = useState(false), [error, setError] = useState(""), [done, setDone] = useState(false), [progress, setProgress] = useState("");
   const draft = useRef<{ id: string; token: string; uploaded: number } | null>(null);
@@ -24,6 +25,7 @@ export function ReviewForm({ services }: { services: Service[] }) {
         if (files.length > 2 || (kinds.includes("video") && files.length > 1)) throw new Error("Choose up to two photos OR one video.");
         const session = await postJson<{ id: string; token: string }>("/api/reviews", { name: data.get("name"), ceremony: data.get("ceremony"), message: data.get("message"), rating, consent: data.get("consent") === "on", challenge, website: data.get("website"), attachments: kinds });
         draft.current = { ...session, uploaded: 0 };
+        setHasDraft(true);
       }
       const session = draft.current!;
       for (let slot = session.uploaded; slot < files.length; slot++) {
@@ -37,7 +39,7 @@ export function ReviewForm({ services }: { services: Service[] }) {
   if (done) return <div className="review-thanks" role="status"><h3>Thank you for sharing your experience.</h3><p>Your review and attachments are private until the owner approves them. They will not appear immediately.</p></div>;
   return <form className="review-form" onSubmit={submit}>
     <h2>Share your experience</h2><p>Tell another family what your ceremony was like. All ratings are welcome.</p>
-    <fieldset disabled={busy || Boolean(draft.current)}><legend className="sr-only">Your review</legend>
+    <fieldset disabled={busy || hasDraft}><legend className="sr-only">Your review</legend>
       <div className="review-fields"><label>Your display name<input name="name" minLength={2} maxLength={80} autoComplete="name" required /></label><label>Ceremony<select name="ceremony" required defaultValue=""><option value="" disabled>Select a ceremony</option>{services.map(s => <option key={s.id}>{s.name}</option>)}<option>Other / previous ceremony</option></select></label></div>
       <fieldset className="rating-input"><legend>Your rating</legend>{[1, 2, 3, 4, 5].map(value => <label key={value} className={value <= rating ? "selected" : ""}><input type="radio" name="rating" value={value} checked={rating === value} onChange={() => setRating(value)} required /><Star size={26} fill={value <= rating ? "currentColor" : "none"} aria-hidden="true" /><span className="sr-only">{value} {value === 1 ? "star" : "stars"}</span></label>)}<span>{rating ? `${rating} / 5` : "Choose a rating"}</span></fieldset>
       <label>Your message<textarea name="message" minLength={15} maxLength={1500} rows={5} required placeholder="What went well? What could we improve?" /></label>
@@ -48,8 +50,9 @@ export function ReviewForm({ services }: { services: Service[] }) {
       <p className="form-help">Do not include phone numbers or other private information in your review. Read our <Link href="/privacy">Privacy Policy</Link>.</p>
     </fieldset>
     {error && <p className="form-error" role="alert">{error}</p>}{progress && <p role="status">{progress}</p>}
-    {draft.current && !busy && <p className="form-help">Your draft is saved for this session. Retry to finish the remaining uploads, or refresh to start over.</p>}
-    <button type="submit" disabled={busy || !challenge}><Send size={17} aria-hidden="true" />{busy ? "Sending your review..." : draft.current ? "Retry submission" : "Submit for approval"}</button>
+    {hasDraft && !busy && <p className="form-help">Your draft is saved for this session. Retry to finish the remaining uploads, or refresh to start over.</p>}
+    <button type="submit" disabled={busy || !challenge}><Send size={17} aria-hidden="true" />{busy ? "Sending your review..." : hasDraft ? "Retry submission" : "Submit for approval"}</button>
   </form>;
 }
+
 
