@@ -19,52 +19,12 @@ import {
 import { VideoCarousel } from "@/components/video-carousel";
 import { SiteFooter } from "@/components/site-shell";
 import { AboutSection } from "@/components/about-section";
+import { ServiceCatalog } from "@/components/service-catalog";
+import { ReviewList } from "@/components/review-list";
+import { getServices, getGallery, getReviews } from "@/lib/content";
 import { INSTAGRAM_URL } from "@/lib/social-links";
 
 export const metadata: Metadata = { alternates: { canonical: "/" } };
-
-const occasions = [
-  {
-    title: "Wedding Aarti",
-    copy: "A ceremonial light offering for the couple, families, and a blessed beginning.",
-    label: "Most requested",
-  },
-  {
-    title: "Namkaran & Mundan",
-    copy: "A gentle Vedic ceremony designed around your child and family traditions.",
-    label: "Family ceremony",
-  },
-  {
-    title: "Griha Pravesh",
-    copy: "Invite auspicious energy into a new home with mantras, shankh, and deep daan.",
-    label: "Home blessing",
-  },
-  {
-    title: "Anniversary Aarti",
-    copy: "Mark a shared milestone with a warm ceremony for the couple and their family.",
-    label: "Milestone blessing",
-  },
-  {
-    title: "Durga Puja Aarti",
-    copy: "A powerful collective aarti arranged for homes, societies, and festive gatherings.",
-    label: "Festival ceremony",
-  },
-  {
-    title: "Community & Corporate",
-    copy: "A coordinated spiritual opening for cultural programs, institutions, and large events.",
-    label: "Large gatherings",
-  },
-  {
-    title: "Rudrabhishek",
-    copy: "Arrange a Rudrabhishek puja with Priyanshu. Discuss your sankalp, venue, and ritual requirements with us.",
-    label: "Shiva puja",
-  },
-  {
-    title: "Puja Path",
-    copy: "Puja and path for your home or family occasion. Share the rituals you need so we can confirm the format, materials, and timing.",
-    label: "Puja & recitation",
-  },
-];
 
 const bookingSteps = [
   { icon: MessageCircle, title: "Share your plan", copy: "Tell us the occasion, date, city, and expected gathering size." },
@@ -81,7 +41,12 @@ const faqs = [
   ["Does submitting the form confirm my booking?", "No. The form creates a request. Your date is confirmed only after the team verifies availability and you approve the final plan."],
 ];
 
-export default function Home() {
+export const revalidate = 60;
+
+export default async function Home() {
+  const services = await getServices().catch(() => []);
+  const videos = await getGallery().catch(() => []);
+  const reviews = await getReviews().catch(() => []);
   const business = {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -158,15 +123,7 @@ export default function Home() {
               Occasion
               <select name="occasion" defaultValue="">
                 <option value="" disabled>Select ceremony</option>
-                <option value="wedding">Wedding Ganga Aarti</option>
-                <option value="namkaran">Namkaran / Mundan</option>
-                <option value="griha-pravesh">Griha Pravesh</option>
-                <option value="anniversary">Anniversary</option>
-                <option value="durga-puja">Durga Puja</option>
-                <option value="rudrabhishek">Rudrabhishek</option>
-                <option value="puja-path">Puja Path</option>
-                <option value="other-puja">Other puja</option>
-                <option value="other">Other occasion</option>
+                {services.map(service => <option key={service.id} value={service.slug}>{service.name}</option>)}
               </select>
             </label>
             <div className="form-row">
@@ -196,7 +153,7 @@ export default function Home() {
         <div className="section-intro">
           <div>
             <p className="eyebrow dark">Ceremonies we perform</p>
-            <h2>One sacred tradition, shaped for your occasion.</h2>
+            <h2>Pujas and ceremonies for your occasion.</h2>
           </div>
           <p>
             Every format includes trained pandits, ritual guidance, essential
@@ -204,20 +161,8 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="occasion-grid">
-          {occasions.map((occasion, index) => (
-            <article key={occasion.title}>
-              <span className="occasion-number">0{index + 1}</span>
-              <p className="occasion-label">{occasion.label}</p>
-              <h3>{occasion.title}</h3>
-              <p>{occasion.copy}</p>
-              <Link href={`/book?occasion=${encodeURIComponent(occasion.title)}`}>
-                Check this ceremony <ArrowRight size={16} />
-              </Link>
-            </article>
-          ))}
-        </div>
-        <div className="other-puja-note"><p><strong>Looking for another puja?</strong> Priyanshu also performs other pujas for homes, families, and special occasions. Tell us what you have in mind.</p><Link href="/book?occasion=other-puja">Discuss your puja <ArrowRight size={17} /></Link></div>
+        <ServiceCatalog services={services} />
+        <div className="other-puja-note"><p><strong>Not sure which ceremony to choose?</strong> Tell us your occasion and family traditions. We will help you plan the right puja.</p><a href="https://wa.me/917007667996">Discuss your puja <ArrowRight size={17} /></a></div>
       </section>
 
       <section className="process-section" id="process">
@@ -251,7 +196,7 @@ export default function Home() {
             thoughtfully adapted to the venue while preserving the spirit of Kashi.
           </p>
         </div>
-        <VideoCarousel />
+        <VideoCarousel videos={videos} />
       </section>
 
       <AboutSection />
@@ -309,6 +254,8 @@ export default function Home() {
           <a href="https://wa.me/917007667996?text=Namaste%2C%20I%20want%20to%20plan%20a%20Ganga%20Aarti." target="_blank" rel="noreferrer">Talk on WhatsApp</a>
         </div>
       </section>
+
+      <section className="home-reviews" id="reviews"><div className="section-intro"><div><p className="eyebrow dark">Shared experiences</p><h2>From the families we serve.</h2></div><Link href="/reviews">Read or write a review <ArrowRight size={17} /></Link></div><ReviewList reviews={reviews.slice(0, 3)} /></section>
 
       <SiteFooter />
 

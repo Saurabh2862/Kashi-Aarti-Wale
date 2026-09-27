@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { BookingForm } from "@/components/booking-form";
 import { InnerHeader, SiteFooter } from "@/components/site-shell";
+import { getServices } from "@/lib/content";
 
 export const metadata: Metadata = {
   title: "Book a Ganga Aarti Ceremony",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 
 export default async function BookPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const defaults = await searchParams;
+  const services = await getServices().catch(() => []);
   return (
     <main className="inner-page">
       <InnerHeader />
@@ -19,7 +21,7 @@ export default async function BookPage({ searchParams }: { searchParams: Promise
         <p>Share the essentials. Our team will confirm pandit availability, ceremony format, travel, and the exact quote.</p>
       </section>
       <section className="booking-layout">
-        <div className="booking-form-shell"><BookingForm defaults={defaults} /></div>
+        <div className="booking-form-shell"><BookingForm defaults={defaults} services={services} /></div>
         <aside className="booking-assurance">
           <span>What happens next</span>
           <ol>

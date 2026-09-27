@@ -24,7 +24,7 @@ export default async function AdminPage() {
         <div><span>Owner</span><form action="/api/admin/logout" method="post"><button type="submit"><LogOut size={16} /> Sign out</button></form></div>
       </header>
       <section className="admin-content">
-        <div className="admin-title"><div><p>Booking operations</p><h1>Good evening.</h1></div><Link href="/book">Open customer form</Link></div>
+        <div className="admin-title"><div><p>Booking operations</p><h1>Your booking desk.</h1></div><Link href="/admin/manage">Manage services, videos & reviews</Link></div>
         <div className="metric-grid">
           <article><Users /><span>All requests</span><strong>{bookings.length}</strong></article>
           <article><CalendarCheck /><span>Pending action</span><strong>{pending}</strong></article>

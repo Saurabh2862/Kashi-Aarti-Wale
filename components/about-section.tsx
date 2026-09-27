@@ -25,8 +25,8 @@ export function AboutSection() {
             <li>Ganga Aarti</li><li>Rudrabhishek</li><li>Puja Path</li>
           </ul>
           <dl className="about-education">
-            <div><dt>Shastri studies</dt><dd>First year at Banaras Hindu University (BHU), Varanasi</dd></div>
-            <div><dt>Madhyama studies</dt><dd>Satua Baba, Varanasi</dd></div>
+            <div><dt>Shastri (B.A. Honours equivalent)</dt><dd>First-year student, Banaras Hindu University (BHU), Varanasi</dd></div>
+            <div><dt>Madhyama (10+2 equivalent)</dt><dd>Shri Bhagwan Vishnu Swami Satua Baba Sanskrit Higher Secondary School, Varanasi</dd></div>
           </dl>
           <div className="about-actions">
             <Link href="/book">Plan a puja with us <ArrowUpRight size={18} aria-hidden="true" /></Link>

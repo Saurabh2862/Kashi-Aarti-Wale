@@ -30,6 +30,7 @@ export function SiteFooter() {
         <strong>Quick links</strong>
         <Link href="/book">Book a ceremony</Link>
         <Link href="/#about">About Priyanshu</Link>
+        <Link href="/reviews">Reviews & feedback</Link>
         <Link href="/track">Track booking</Link>
         <Link href="/admin">Owner dashboard</Link>
         <Link href="/privacy">Privacy Policy</Link>

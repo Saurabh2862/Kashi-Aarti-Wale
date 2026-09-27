@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { createBooking } from "@/lib/bookings";
+import { getServices } from "@/lib/content";
 
 const bookingSchema = z.object({
   customerName: z.string().trim().min(2).max(100),
@@ -22,6 +23,10 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Please check the required booking details." }, { status: 400 });
     }
 
+    const activeServices = await getServices();
+    if (!activeServices.some(service => service.name === parsed.data.occasion)) {
+      return NextResponse.json({ error: "This ceremony is no longer available. Refresh the form and choose a current service." }, { status: 400 });
+    }
     const booking = await createBooking(parsed.data);
     return NextResponse.json({ reference: booking.reference, status: booking.status }, { status: 201 });
   } catch (error) {

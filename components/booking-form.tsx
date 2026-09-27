@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import Link from "next/link";
+import type { Service } from "@/lib/content-types";
 import { readApiResponse } from "@/lib/api-response";
 import { ArrowRight, CheckCircle2, LoaderCircle } from "lucide-react";
 
@@ -32,7 +33,7 @@ type ModelContext = {
   ) => unknown;
 };
 
-export function BookingForm({ defaults }: { defaults?: Record<string, string | undefined> }) {
+export function BookingForm({ defaults, services }: { defaults?: Record<string, string | undefined>; services: Service[] }) {
   const occasions: Record<string, string> = {
     wedding: "Wedding Ganga Aarti", "Wedding Aarti": "Wedding Ganga Aarti",
     namkaran: "Namkaran / Mundan", "Namkaran & Mundan": "Namkaran / Mundan",
@@ -44,7 +45,8 @@ export function BookingForm({ defaults }: { defaults?: Record<string, string | u
     "other-puja": "Other puja",
     other: "Other occasion", "Community & Corporate": "Other occasion",
   };
-  const selectedOccasion = occasions[defaults?.occasion || ""] || defaults?.occasion || "";
+  const requested = defaults?.occasion || "";
+  const selectedOccasion = services.find(s => s.slug === requested || s.name === requested || s.name === occasions[requested])?.name || "";
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [reference, setReference] = useState("");
@@ -127,9 +129,11 @@ export function BookingForm({ defaults }: { defaults?: Record<string, string | u
 
   return (
     <form className="full-booking-form" onSubmit={handleSubmit}>
+      {!services.length && <p role="alert" className="form-error">No ceremonies are currently available to book online. Please contact us on WhatsApp.</p>}
+      {defaults?.occasion && !selectedOccasion && <p className="form-help">That ceremony is no longer available. Please choose from the current list.</p>}
       <div className="form-section-heading"><span>01</span><div><strong>Ceremony details</strong><p>Tell us what you are planning.</p></div></div>
       <div className="booking-fields two-columns">
-        <label>Occasion<select name="occasion" defaultValue={selectedOccasion} required><option value="" disabled>Select ceremony</option><option>Wedding Ganga Aarti</option><option>Namkaran / Mundan</option><option>Griha Pravesh</option><option>Anniversary</option><option>Durga Puja</option><option>Rudrabhishek</option><option>Puja Path</option><option>Other puja</option><option>Other occasion</option></select></label>
+        <label>Occasion<select name="occasion" defaultValue={selectedOccasion} required><option value="" disabled>Select ceremony</option>{services.map(service => <option key={service.id}>{service.name}</option>)}</select></label>
         <label>Event date<input name="eventDate" type="date" defaultValue={defaults?.date} required /></label>
         <label>City<input name="city" defaultValue={defaults?.location?.replace(/\d/g, "").trim()} placeholder="City" required /></label>
         <label>Pincode<input name="pincode" inputMode="numeric" defaultValue={defaults?.location?.match(/\d{6}/)?.[0]} placeholder="6-digit pincode" pattern="[0-9]{6}" required /></label>
@@ -146,7 +150,7 @@ export function BookingForm({ defaults }: { defaults?: Record<string, string | u
       </div>
 
       {error && <div className="form-error" role="alert"><p>{error}</p><a href="https://wa.me/917007667996" target="_blank" rel="noopener noreferrer">Contact our team on WhatsApp</a></div>}
-      <button className="booking-submit" type="submit" disabled={submitting}>
+      <button className="booking-submit" type="submit" disabled={submitting || !services.length}>
         {submitting ? <><LoaderCircle className="spin" size={18} /> Saving your request</> : <>Submit booking request <ArrowRight size={18} /></>}
       </button>
       <p className="form-privacy">Submitting this form does not require payment and does not confirm a booking. We verify availability first.</p>

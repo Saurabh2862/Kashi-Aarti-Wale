@@ -835,3 +835,92 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 980px) {
   .occasion-grid article:last-child:nth-child(3n + 2) { grid-column: auto; }
 }
+
+/* Service catalogue */
+.service-filters, .manager-tabs { display: flex; flex-wrap: wrap; gap: .6rem; }
+.service-filters button, .manager-tabs button { min-height: 44px; padding: .7rem 1rem; border: 1px solid var(--border); border-radius: 6px; background: transparent; color: var(--foreground); font: inherit; font-size: .85rem; cursor: pointer; transition: background 160ms, color 160ms; }
+.service-filters button[aria-pressed="true"], .manager-tabs button[aria-pressed="true"] { background: var(--primary); border-color: var(--primary); color: #fffaf1; }
+.catalog-count { margin: 1.25rem 0; color: var(--muted-foreground); font-size: .8rem; }
+.service-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.service-cards article { min-width: 0; display: flex; flex-direction: column; padding: 1.8rem; border: 1px solid var(--border); background: #fffaf1; border-radius: 6px; }
+.service-card-top { display: flex; align-items: center; gap: .7rem; color: var(--primary); }
+.service-card-top span { font-size: .72rem; letter-spacing: .06em; }
+.service-cards h3 { margin: 1.4rem 0 .65rem; font-family: var(--font-cormorant), serif; font-size: 2rem; line-height: 1.15; }
+.service-cards p { margin: 0 0 1.2rem; color: var(--muted-foreground); font-size: .9rem; line-height: 1.75; }
+.service-cards a { display: inline-flex; align-items: center; gap: .5rem; min-height: 44px; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--border); font-size: .8rem; font-weight: 700; color: var(--primary); }
+.service-cards a svg { flex-shrink: 0; }
+.content-empty { padding: 2rem; border: 1px dashed var(--border); border-radius: 6px; color: var(--muted-foreground); line-height: 1.7; }
+.content-empty h3 { margin: 0 0 .5rem; color: var(--foreground); }
+.ceremony-gallery .content-empty { color: #fff8eb; }
+/* Reviews */
+.home-reviews { padding: 5rem max(6vw, calc((100vw - 1160px) / 2)); background: #f0e4d2; }
+.home-reviews .section-intro > a { display: inline-flex; gap: .6rem; align-items: center; min-height: 44px; color: var(--primary); font-size: .9rem; font-weight: 700; }
+.reviews-public { max-width: 1240px; margin: 0 auto; padding: 0 24px 4rem; }
+.reviews-heading { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 1rem; }
+.reviews-heading h2, .review-form h2 { font-family: var(--font-cormorant), serif; font-size: 2.5rem; margin: 0 0 1rem; }
+.review-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+.review-card { min-width: 0; padding: 1.5rem; border: 1px solid var(--border); border-radius: 6px; background: #fffaf1; }
+.review-stars { display: flex; gap: .2rem; color: #9b4b0c; }
+.review-message { white-space: pre-wrap; overflow-wrap: anywhere; line-height: 1.8; color: var(--foreground); font-size: .95rem; }
+.review-author { padding-top: 1rem; border-top: 1px solid var(--border); }
+.review-author strong, .review-author span { display: block; }
+.review-author span { margin-top: .35rem; font-size: .78rem; color: var(--muted-foreground); }
+.review-attachments { display: flex; gap: .5rem; margin-top: 1rem; align-items: start; }
+.review-attachments > a { flex: 1; min-width: 0; }
+.review-attachments img { width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; }
+.review-attachments video { width: 100%; max-height: 360px; background: #211008; border-radius: 4px; }
+.review-form-section { padding: 3rem 20px 5rem; background: #efe2cc; }
+.review-form, .review-thanks { max-width: 760px; margin: 0 auto; padding: clamp(1.2rem, 4vw, 3rem); border: 1px solid var(--border); border-radius: 6px; background: #fffaf1; }
+.review-form > p, .form-help { color: var(--muted-foreground); font-size: .83rem; line-height: 1.7; }
+.review-form fieldset, .manager-panel fieldset { padding: 0; margin: 0; border: 0; min-width: 0; }
+.review-form label, .manager-panel label { display: grid; gap: .5rem; margin: 1rem 0; color: var(--foreground); font-size: .85rem; font-weight: 600; }
+.review-form input:not([type="radio"]):not([type="checkbox"]), .review-form select, .review-form textarea, .manager-panel input:not([type="checkbox"]), .manager-panel select, .manager-panel textarea { width: 100%; min-width: 0; min-height: 44px; padding: .8rem; border: 1px solid var(--border); border-radius: 6px; background: #fffdf7; color: var(--foreground); font: inherit; font-size: .9rem; }
+.review-form textarea, .manager-panel textarea { resize: vertical; }
+.review-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.review-form .rating-input { display: flex; align-items: center; flex-wrap: wrap; gap: .5rem; margin: 1rem 0; }
+.rating-input legend { margin-bottom: .7rem; font-size: .85rem; font-weight: 600; }
+.review-form .rating-input label { position: relative; display: grid; place-items: center; width: 44px; height: 44px; margin: 0; border: 1px solid var(--border); border-radius: 6px; color: #8c7762; cursor: pointer; }
+.rating-input input { position: absolute; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
+.rating-input label:focus-within { outline: 2px solid var(--primary); outline-offset: 2px; }
+.review-form .rating-input .selected { color: #a1540f; border-color: #a1540f; background: #fff2d5; }
+.rating-input > span { font-size: .8rem; color: var(--muted-foreground); }
+.review-form .consent-check, .manager-panel .consent-check { display: flex; align-items: flex-start; gap: .7rem; font-weight: 400; line-height: 1.7; }
+.consent-check input { flex-shrink: 0; width: 20px; height: 20px; margin-top: .2rem; accent-color: var(--primary); }
+.review-honeypot { display: none; }
+.review-form button, .manager-panel button { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 44px; padding: .75rem 1rem; border: 1px solid var(--primary); border-radius: 6px; background: var(--primary); color: #fffaf1; font: inherit; font-size: .85rem; cursor: pointer; }
+.review-form button:disabled, .manager-panel button:disabled { opacity: .55; cursor: not-allowed; }
+.form-help a { color: var(--primary); text-decoration: underline; }
+/* Owner content management */
+.manager-tabs { padding: 1rem 0 2rem; }
+.manager-tabs button { display: inline-flex; align-items: center; gap: .6rem; }
+.manager-columns { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 1.5rem; align-items: start; }
+.manager-panel { min-width: 0; padding: 1.5rem; margin-bottom: 1.5rem; border: 1px solid var(--border); border-radius: 6px; background: #fffaf1; }
+.manager-panel h2 { margin: 0 0 .8rem; font-family: var(--font-cormorant), serif; font-size: 2rem; }
+.manager-panel > p { color: var(--muted-foreground); font-size: .85rem; line-height: 1.7; }
+.manager-panel .secondary-button, .manager-actions button { background: transparent; color: var(--primary); margin: .25rem 0; }
+.manager-items { display: grid; gap: 1rem; }
+.manager-items article { padding: 1rem 0; border-bottom: 1px solid var(--border); }
+.manager-items h3 { margin: .7rem 0 .3rem; font-size: 1.05rem; }
+.manager-items p { color: var(--muted-foreground); font-size: .8rem; }
+.manager-items video { width: 100%; max-height: 260px; background: #211008; border-radius: 4px; }
+.manager-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .7rem; }
+.status-tag { font-size: .73rem; color: var(--muted-foreground); text-transform: capitalize; }
+.manager-success { padding: 1rem; background: #edf5e9; border: 1px solid #a0bb88; color: #244219; border-radius: 6px; }
+.storage-panel summary { cursor: pointer; font-weight: 700; min-height: 44px; }
+.asset-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-top: 1px solid var(--border); padding: 1rem 0; font-size: .8rem; }
+.asset-row small { display: block; margin-top: .3rem; color: var(--muted-foreground); }
+.content-manager button:focus-visible, .service-catalog button:focus-visible, .review-form input:focus-visible, .manager-panel input:focus-visible, .review-form textarea:focus-visible, .manager-panel textarea:focus-visible, .review-form select:focus-visible, .manager-panel select:focus-visible { outline: 2px solid var(--primary); outline-offset: 3px; }
+@media (max-width: 980px) {
+  .service-cards, .review-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .manager-columns { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 640px) {
+  .service-cards, .review-grid, .review-fields { grid-template-columns: minmax(0, 1fr); }
+  .service-cards article, .review-card { padding: 1.25rem; }
+  .service-filters { gap: .4rem; }
+  .service-filters button { font-size: .76rem; padding: .6rem .7rem; }
+  .home-reviews { padding: 4rem 20px; }
+  .manager-panel { padding: 1rem; }
+  .asset-row { align-items: flex-start; flex-direction: column; }
+  .admin-header > div { flex-wrap: wrap; gap: .75rem; }
+}

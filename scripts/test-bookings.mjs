@@ -6,7 +6,7 @@ assert.ok(process.env.ADMIN_SESSION_SECRET, 'ADMIN_SESSION_SECRET is required');
 const sql = neon(process.env.DATABASE_URL);
 const base = process.env.TEST_BASE_URL || 'http://localhost:5173';
 const marker = `integration-test-${randomUUID()}`;
-const payload = {customerName: 'Integration Test', phone: '9000000000', occasion:'Wedding Aarti', eventDate:'2027-12-01',city:'Varanasi',pincode:'221001',notes:marker};
+const payload = {customerName: 'Integration Test', phone: '9000000000', occasion:'Wedding Ganga Aarti', eventDate:'2027-12-01',city:'Varanasi',pincode:'221001',notes:marker};
 const headers = {'Content-Type':'application/json', Origin:base};
 let id;
 try {
