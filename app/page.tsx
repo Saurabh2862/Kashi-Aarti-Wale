@@ -94,9 +94,9 @@ export default function Home() {
           <source src="/media/aarti-ceremony-04.mp4" type="video/mp4" />
         </video>
         <div className="hero-shade" aria-hidden="true" />
-        <div className="hero-ornament" aria-hidden="true">ॐ</div>
 
         <div className="hero-copy">
+          <div className="hero-ornament" aria-hidden="true">ॐ</div>
           <p className="eyebrow">
             <Sparkles size={15} /> From the heart of Kashi
           </p>

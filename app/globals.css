@@ -135,13 +135,15 @@ a { color: inherit; text-decoration: none; }
     linear-gradient(0deg, rgb(17 4 1 / 48%), transparent 38%);
 }
 .hero-ornament {
-  position: absolute;
-  top: 13%;
-  right: 6%;
-  color: rgb(255 210 122 / 10%);
+  display: block;
+  margin: 0 auto 1.25rem;
+  padding-block: .15em;
+  text-align: center;
+  color: rgb(255 210 122 / 75%);
   font-family: var(--font-cormorant), serif;
-  font-size: clamp(11rem, 20vw, 20rem);
-  line-height: 1;
+  font-size: clamp(3.5rem, 6vw, 5.5rem);
+  line-height: 1.25;
+  pointer-events: none;
 }
 .hero-copy, .availability-card { position: relative; z-index: 2; }
 .hero-copy { max-width: 720px; color: #fff8eb; animation: rise 700ms ease both; }
