@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
+import { getSiteUrl } from "@/lib/site-url";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -15,12 +16,9 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.SITE_URL ||
-      (process.env.VERCEL_PROJECT_PRODUCTION_URL
-        ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-        : "http://localhost:5173"),
-  ),
+  metadataBase: getSiteUrl(),
+  verification: { google: process.env.GOOGLE_SITE_VERIFICATION },
+  robots: { index: process.env.VERCEL_ENV !== "preview", follow: true },
   title: {
     default: "Kashi Aarti Wale | Book Sacred Ganga Aarti Ceremonies",
     template: "%s | Kashi Aarti Wale",

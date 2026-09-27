@@ -69,7 +69,6 @@ export default defineConfig(async () => {
           // by the resolved file path so local D1 bindings remain available.
           const normalized = id.split("?")[0].replaceAll("\\", "/");
           for (const [source, replacement] of [
-            ["./db/index.ts", "./db/cloudflare.ts"],
             ["./lib/runtime-environment.ts", "./lib/runtime-environment.cloudflare.ts"],
           ]) {
             if (normalized === fileURLToPath(new URL(source, import.meta.url)).replaceAll("\\", "/")) {

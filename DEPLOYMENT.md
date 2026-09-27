@@ -1,55 +1,64 @@
-# Vercel deployment
+# Deployment and search visibility
 
-Vercel runs the standard Next.js build (`pnpm build`) and serves `.next`.
-The local `pnpm dev` preview continues to use Vinext and local Cloudflare D1.
-The previous Vinext build is available as `pnpm build:cloudflare`.
+Production website: https://kashi-aarti-wale.vercel.app/
 
-## Project settings
+## Vercel
 
-- Framework: Next.js
-- Root directory: the directory containing package.json (repository root)
-- Node.js: 22.x
-- Install command: pnpm install --frozen-lockfile
-- Build command: pnpm run build
-- Output directory: .next
+- Framework: Next.js; repository root; Node.js 22.x.
+- Install: `pnpm install --frozen-lockfile`.
+- Build: `pnpm run build`; output: `.next`.
+- Local development: `pnpm dev` runs Next.js on port 5173.
 
-## Link sharing
+Configure these server-only Production environment variables, then redeploy:
 
-Share the public production domain listed under Vercel > Settings > Domains,
-not the protected `-git-main-` preview URL. A protected deployment returns
-Vercel's login preview to WhatsApp instead of this website's metadata.
-Keep preview protection enabled and make the production domain public.
-Set SITE_URL to your full public HTTPS URL if using a custom domain; otherwise
-VERCEL_PROJECT_PRODUCTION_URL provides the metadata image origin automatically.
-The shared JPEG is public/social/kashi-aarti-wale.jpg (1200 x 630).
-Previously sent messages may retain their cached preview after redeployment.
+- `DATABASE_URL`: the Neon PostgreSQL connection string.
+- `ADMIN_PASSWORD_HASH`: existing PBKDF2 hash from the ignored `.env.local`.
+- `ADMIN_SESSION_SECRET`: existing random signing secret from `.env.local`.
+- `SITE_URL`: `https://kashi-aarti-wale.vercel.app`.
+- Optional `GOOGLE_SITE_VERIFICATION`: Search Console verification token.
+- Optional `INSTAGRAM_URL`: the real business profile URL.
 
-## Production database and admin
+Never prefix secrets with `NEXT_PUBLIC_`. Never commit credentials. Do not give
+preview deployments production database credentials; use a separate Neon branch.
+The retired Cloudflare D1 settings are not needed for this Vercel deployment.
 
-The Vercel server accesses Cloudflare D1 through its authenticated HTTPS API.
-Create a production D1 database in your Cloudflare account, or use your existing
-production database. The local .wrangler database is not uploaded by Git.
-Apply the SQL files in drizzle/ in filename order once to a new database using
-the Cloudflare D1 console. Do not reapply migrations to existing tables.
+## Neon
 
-Set these server-only values under Vercel > Settings > Environment Variables:
+Project: `little-field-88883906`, branch: `production`.
+Run `pnpm db:migrate` with `.env.local` configured before accepting bookings.
+The migration runner records applied migrations and can be rerun safely.
+`neon deploy` deploys Neon configuration, not the Next.js website.
+Bookings and status-history changes are written in database transactions.
+Legacy D1/local SQLite records are not imported by this schema migration.
 
-- CLOUDFLARE_ACCOUNT_ID: the account containing your D1 database
-- CLOUDFLARE_DATABASE_ID: the production database UUID
-- CLOUDFLARE_API_TOKEN: an API token with Account > D1 > Edit permission scoped to that account
-- ADMIN_PASSWORD_HASH: the PBKDF2 value described in ADMIN_SETUP.md
-- ADMIN_SESSION_SECRET: the random session signing secret described in ADMIN_SETUP.md
+After deployment, verify booking submission, tracking with the reference and
+phone, owner login at `/admin`, and an authenticated status update.
 
-Add the values for Production and, if desired, Preview, then redeploy. Never use
-NEXT_PUBLIC_ prefixes for these credentials or commit them to Git. The existing
-admin values are in the ignored local .dev.vars file; enter them in Vercel privately.
+For an automated smoke test, start the app and run
+`node --env-file=.env.local scripts/test-bookings.mjs`. It creates and removes
+only its UUID-tagged synthetic booking. The app and test must use the same
+database. `TEST_BASE_URL` defaults to `http://localhost:5173`; optionally set
+`TEST_ADMIN_PASSWORD` to also test password login. Otherwise the script signs a
+short-lived owner session using the configured secret to test authorization.
 
-Public pages can build without database credentials. Booking submission, tracking,
-and authenticated dashboard operations require the database and migrations above.
-Verify a real booking and status update after configuring production.
+## Google and social sharing
 
-The D1 REST API shares Cloudflare account API rate limits. For higher traffic,
-replace this adapter with a dedicated authenticated Worker API or a database
-connection designed for application traffic.
+1. Add the production URL as a URL-prefix property in Google Search Console.
+2. Set `GOOGLE_SITE_VERIFICATION` to its HTML-tag verification token and redeploy.
+3. Verify ownership and submit `https://kashi-aarti-wale.vercel.app/sitemap.xml`.
+4. Use URL Inspection to request indexing of the homepage and `/book`.
+5. Add the production URL to your Instagram profile's Links section. Set
+   `INSTAGRAM_URL` when the business profile is available.
 
-Reference: https://developers.cloudflare.com/api/resources/d1/subresources/database/methods/raw/
+The site includes canonical URLs, a sitemap, robots rules, Organization JSON-LD,
+and Open Graph/Twitter image metadata. Admin and tracking pages are noindex.
+Search engines control indexing and ranking; neither is immediate or guaranteed.
+
+Share the public production URL, not a protected `-git-main-` preview URL.
+Social crawlers cannot read metadata behind Vercel authentication. The preview
+image lives at `public/social/kashi-aarti-wale.jpg`; already-sent messages may
+retain old cached previews.
+
+References:
+- https://vercel.com/docs/environment-variables
+- https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap

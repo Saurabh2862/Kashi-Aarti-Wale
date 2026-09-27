@@ -20,7 +20,11 @@ export async function PATCH(request: Request, context: { params: Promise<{ id: s
     return NextResponse.json({ error: "Invalid booking id" }, { status: 400 });
   }
 
-  const booking = await updateBookingStatus(numericId, parsed.data.status, "owner");
-  if (!booking) return NextResponse.json({ error: "Booking not found" }, { status: 404 });
-  return NextResponse.json({ booking });
+  try {
+    const booking = await updateBookingStatus(numericId, parsed.data.status, "owner");
+    if (!booking) return NextResponse.json({ error: "Booking not found" }, { status: 404 });
+    return NextResponse.json({ booking });
+  } catch {
+    return NextResponse.json({ error: "Booking update is temporarily unavailable. Please retry." }, { status: 503 });
+  }
 }

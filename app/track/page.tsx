@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { InnerHeader, SiteFooter } from "@/components/site-shell";
 import { TrackingForm } from "@/components/tracking-form";
 
-export const metadata: Metadata = { title: "Track Booking" };
+export const metadata: Metadata = { title: "Track Booking", robots: { index: false, follow: false } };
 
 export default async function TrackPage({ searchParams }: { searchParams: Promise<{ reference?: string }> }) {
   const { reference } = await searchParams;

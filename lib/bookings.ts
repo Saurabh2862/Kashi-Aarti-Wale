@@ -1,4 +1,4 @@
-import { and, desc, eq } from "drizzle-orm";
+import { and, desc, eq, sql } from "drizzle-orm";
 import { getDb } from "@/db";
 import { bookings, bookingStatusHistory } from "@/db/schema";
 
@@ -30,18 +30,18 @@ export async function createBooking(input: {
   const now = new Date().toISOString();
   const reference = createReference();
 
-  const [booking] = await db
+  // Neon batches commit the booking and history together.
+  const [[booking]] = await db.batch([db
     .insert(bookings)
     .values({ ...input, reference, status: "AWAITING_REVIEW", createdAt: now, updatedAt: now })
-    .returning();
-
-  await db.insert(bookingStatusHistory).values({
-    bookingId: booking.id,
+    .returning(),
+  db.insert(bookingStatusHistory).values({
+    bookingId: sql`(select ${bookings.id} from ${bookings} where ${bookings.reference} = ${reference})`,
     status: "AWAITING_REVIEW",
     note: "Booking request received",
     changedBy: "customer",
     createdAt: now,
-  });
+  })]);
 
   return booking;
 }
@@ -73,22 +73,18 @@ export async function updateBookingStatus(id: number, status: BookingStatus, cha
   const db = getDb();
   const now = new Date().toISOString();
 
-  const [booking] = await db
+  const [[booking]] = await db.batch([db
     .update(bookings)
     .set({ status, updatedAt: now })
     .where(eq(bookings.id, id))
-    .returning();
+    .returning(),
+    db.execute(sql`insert into ${bookingStatusHistory}
+      (booking_id, status, changed_by, created_at)
+      select ${bookings.id}, ${status}, ${changedBy}, ${now}
+      from ${bookings} where ${bookings.id} = ${id}`),
+  ]);
 
-  if (!booking) return null;
-
-  await db.insert(bookingStatusHistory).values({
-    bookingId: id,
-    status,
-    changedBy,
-    createdAt: now,
-  });
-
-  return booking;
+  return booking ?? null;
 }
 
 function createReference() {

@@ -1,4 +1,7 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+import { getSiteUrl } from "@/lib/site-url";
+
 import {
   ArrowRight,
   CalendarDays,
@@ -15,6 +18,8 @@ import {
 } from "lucide-react";
 import { VideoCarousel } from "@/components/video-carousel";
 import { SiteFooter } from "@/components/site-shell";
+
+export const metadata: Metadata = { alternates: { canonical: "/" } };
 
 const occasions = [
   {
@@ -65,8 +70,21 @@ const faqs = [
 ];
 
 export default function Home() {
+  const business = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Kashi Aarti Wale",
+    url: getSiteUrl().href,
+    logo: new URL("/favicon.svg", getSiteUrl()).href,
+    image: new URL("/social/kashi-aarti-wale.jpg", getSiteUrl()).href,
+    description: "Ganga Aarti ceremonies for weddings, family rituals and special occasions across India.",
+    telephone: "+917007667996",
+    areaServed: "India",
+    sameAs: process.env.INSTAGRAM_URL ? [process.env.INSTAGRAM_URL] : [],
+  };
   return (
     <main>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(business).replace(/</g, "\\u003c") }} />
       <header className="site-header">
         <Link className="brand" href="/" aria-label="Kashi Aarti Wale home">
           <span className="brand-mark" aria-hidden="true">

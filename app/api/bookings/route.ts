@@ -17,7 +17,7 @@ const bookingSchema = z.object({
 
 export async function POST(request: Request) {
   try {
-    const parsed = bookingSchema.safeParse(await request.json());
+    const parsed = bookingSchema.safeParse(await request.json().catch(() => null));
     if (!parsed.success) {
       return NextResponse.json({ error: "Please check the required booking details." }, { status: 400 });
     }

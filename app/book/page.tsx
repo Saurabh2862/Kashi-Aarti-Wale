@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { BookingForm } from "@/components/booking-form";
 import { InnerHeader, SiteFooter } from "@/components/site-shell";
 
-export const metadata: Metadata = { title: "Book a Ceremony" };
+export const metadata: Metadata = {
+  title: "Book a Ganga Aarti Ceremony",
+  description: "Request a Ganga Aarti ceremony for your wedding, home or family celebration. Share your date and location with Kashi Aarti Wale.",
+  alternates: { canonical: "/book" },
+};
 
 export default async function BookPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const defaults = await searchParams;

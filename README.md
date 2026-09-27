@@ -23,11 +23,14 @@ pnpm dev
 
 Open `http://localhost:5173`.
 
-The owner dashboard is available at `/admin`. Configure the ignored `.dev.vars` file as described in `ADMIN_SETUP.md`.
+The owner dashboard is available at `/admin`. Configure the ignored `.env.local` file as described in `ADMIN_SETUP.md` and `DEPLOYMENT.md`.
 
 ## Database
 
-Database migrations are stored in `drizzle/` and must be applied in filename order.
+Neon PostgreSQL stores bookings, booking history, and login throttling. Set
+`DATABASE_URL` in `.env.local`, then run `pnpm db:migrate`. Migrations are tracked
+in `drizzle-postgres/`. The old `drizzle/` folder is a legacy SQLite archive;
+do not apply it to Neon. Existing D1 data is not automatically imported.
 
 ## Vercel
 

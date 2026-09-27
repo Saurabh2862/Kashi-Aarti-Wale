@@ -1,9 +1,9 @@
-import { index, integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { index, integer, pgTable, serial, text } from "drizzle-orm/pg-core";
 
-export const bookings = sqliteTable(
+export const bookings = pgTable(
   "bookings",
   {
-    id: integer("id").primaryKey({ autoIncrement: true }),
+    id: serial("id").primaryKey(),
     reference: text("reference").notNull().unique(),
     customerName: text("customer_name").notNull(),
     phone: text("phone").notNull(),
@@ -27,10 +27,10 @@ export const bookings = sqliteTable(
   ],
 );
 
-export const bookingStatusHistory = sqliteTable(
+export const bookingStatusHistory = pgTable(
   "booking_status_history",
   {
-    id: integer("id").primaryKey({ autoIncrement: true }),
+    id: serial("id").primaryKey(),
     bookingId: integer("booking_id").notNull().references(() => bookings.id),
     status: text("status").notNull(),
     note: text("note"),
@@ -40,7 +40,7 @@ export const bookingStatusHistory = sqliteTable(
   (table) => [index("idx_booking_history_booking_id").on(table.bookingId)],
 );
 
-export const adminLoginAttempts = sqliteTable("admin_login_attempts", {
+export const adminLoginAttempts = pgTable("admin_login_attempts", {
   key: text("key").primaryKey(),
   failedCount: integer("failed_count").notNull().default(0),
   lockedUntil: text("locked_until"),

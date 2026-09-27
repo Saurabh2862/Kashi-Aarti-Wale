@@ -9,11 +9,13 @@ Configure both values in the production hosting environment:
 - `ADMIN_PASSWORD_HASH`: PBKDF2-SHA256 value formatted as `iterations:salt:hash`.
 - `ADMIN_SESSION_SECRET`: at least 32 cryptographically random bytes encoded as base64url.
 
-Local values are stored in the ignored `.dev.vars` file. Never commit that file or a plaintext password.
+Local values are stored in the ignored `.env.local` file. Never commit that file or a plaintext password.
 
 ## Database
 
-Apply every SQL file in `drizzle/` to the production D1 database in filename order. Migration `0001_absurd_molecule_man.sql` adds persistent login throttling.
+Set `DATABASE_URL` to your Neon connection string and run `pnpm db:migrate`.
+The PostgreSQL migration creates bookings, status history, and persistent login
+throttling. Configure the same database URL and both admin secrets in Vercel.
 
 ## Security behavior
 
