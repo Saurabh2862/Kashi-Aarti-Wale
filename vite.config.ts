@@ -64,7 +64,7 @@ export default defineConfig(async () => {
       {
         name: "cloudflare-runtime-modules",
         enforce: "pre",
-        load(id) {
+        load(id: string) {
           // Vinext resolves tsconfig paths before aliases; select runtime code
           // by the resolved file path so local D1 bindings remain available.
           const normalized = id.split("?")[0].replaceAll("\\", "/");

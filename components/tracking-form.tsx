@@ -2,6 +2,7 @@
 
 import { FormEvent, useState } from "react";
 import { Search } from "lucide-react";
+import { readApiResponse } from "@/lib/api-response";
 
 type TrackingResult = {
   booking: { reference: string; occasion: string; eventDate: string; city: string; status: string };
@@ -23,11 +24,16 @@ export function TrackingForm({ defaultReference = "" }: { defaultReference?: str
     setLoading(true); setError(""); setResult(null);
     const data = new FormData(event.currentTarget);
     const query = new URLSearchParams({ reference: String(data.get("reference") || ""), phone: String(data.get("phone") || "") });
-    const response = await fetch(`/api/bookings/track?${query}`);
-    const payload = await response.json() as TrackingResult & { error?: string };
-    if (!response.ok) setError(payload.error || "Unable to track this booking.");
-    else setResult(payload);
-    setLoading(false);
+    try {
+      const response = await fetch(`/api/bookings/track?${query}`);
+      const payload = await readApiResponse<TrackingResult>(response);
+      if (!payload.booking || !Array.isArray(payload.history)) throw new Error("The booking response is incomplete. Please try again.");
+      setResult(payload);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "Unable to track this booking. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (

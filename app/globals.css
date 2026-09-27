@@ -190,7 +190,7 @@ a { color: inherit; text-decoration: none; }
   box-shadow: 0 30px 80px rgb(14 3 0 / 45%);
   animation: rise 700ms 100ms ease both;
 }
-.card-heading { margin-bottom: 1.3rem; }
+.card-heading { display: grid; gap: .55rem; margin-bottom: 1.3rem; }
 .card-heading span, .card-heading strong { display: block; }
 .card-heading span {
   margin-bottom: .28rem;
@@ -200,7 +200,7 @@ a { color: inherit; text-decoration: none; }
   letter-spacing: .13em;
   text-transform: uppercase;
 }
-.card-heading strong { font-family: var(--font-cormorant), serif; font-size: 1.85rem; font-weight: 600; }
+.card-heading strong { font-family: var(--font-cormorant), serif; font-size: 1.85rem; font-weight: 600; line-height: 1.2; overflow-wrap: anywhere; }
 .availability-card form, .availability-card label { display: grid; }
 .availability-card form { gap: .9rem; }
 .availability-card label {
@@ -487,6 +487,9 @@ a { color: inherit; text-decoration: none; }
   .site-header { grid-template-columns: 1fr auto; }
   .site-header nav { display: none; }
   .hero-shell { min-height: auto; grid-template-columns: 1fr; gap: 2.5rem; padding-top: 145px; }
+  .hero-copy { grid-row: 1; min-width: 0; }
+  .hero-media { position: relative; inset: auto; z-index: 2; grid-row: 2; width: 100%; height: auto; max-height: 480px; aspect-ratio: 16 / 10; object-fit: contain; transform: none; background: #170903; border: 1px solid rgb(255 217 143 / 34%); }
+  .availability-card { grid-row: 3; min-width: 0; }
   .availability-card { max-width: 640px; justify-self: start; }
   .trust-strip, .occasion-grid { grid-template-columns: repeat(2, 1fr); }
   .section-intro, .experience-band, .process-section, .included-section, .faq-section, .closing-cta { grid-template-columns: 1fr; gap: 2.5rem; }
@@ -503,7 +506,11 @@ a { color: inherit; text-decoration: none; }
   .brand-mark { width: 36px; }
   .header-cta { padding: .62rem .7rem; font-size: .68rem; }
   .hero-shell { padding: 122px 16px 48px; }
-  .hero-copy h1 { font-size: clamp(3rem, 16vw, 4.4rem); }
+  .hero-copy h1 { font-size: clamp(2.7rem, 12vw, 4.4rem); line-height: 1.08; }
+  .hero-copy h1 em { margin-block: .12em; }
+  .hero-proof { line-height: 1.6; }
+  .card-heading span { line-height: 1.5; }
+  .section-intro h2, .process-heading h2, .gallery-heading h2, .experience-band h2 { line-height: 1.12; }
   .hero-lede { font-size: 1.12rem; }
   .availability-card { padding: 1.2rem; }
   .form-row, .trust-strip, .occasion-grid { grid-template-columns: 1fr; }
@@ -563,7 +570,9 @@ a { color: inherit; text-decoration: none; }
 .form-section-heading { display: flex; align-items: center; gap: .9rem; margin: 0 0 1.25rem; padding-top: 1.3rem; border-top: 1px solid #dec8a5; }
 .form-section-heading:first-child { padding-top: 0; border-top: 0; }
 .form-section-heading > span { display: grid; width: 36px; aspect-ratio: 1; place-items: center; border: 1px solid #c9a26b; border-radius: 50%; color: #a83f12; font-size: .75rem; font-weight: 800; }
-.form-section-heading strong { font-family: var(--font-cormorant), serif; font-size: 1.35rem; }
+.form-section-heading strong { display: block; font-family: var(--font-cormorant), serif; font-size: 1.35rem; line-height: 1.3; }
+.form-section-heading > span { flex-shrink: 0; }
+.form-section-heading > div { min-width: 0; }
 .form-section-heading p { margin: .05rem 0 0; color: #81634b; font-size: .78rem; }
 .booking-fields { display: grid; gap: 1rem; margin-bottom: 2rem; }
 .booking-fields.two-columns { grid-template-columns: 1fr 1fr; }
@@ -720,7 +729,9 @@ a { color: inherit; text-decoration: none; }
   .inner-header { padding: 0 14px; }
   .inner-header nav > a:not(.inner-cta) { display: none; }
   .page-heading { padding: 4.2rem 18px 2.4rem; }
-  .page-heading h1 { font-size: 3.2rem; }
+  .page-heading h1 { font-size: clamp(2.5rem, 11vw, 3.2rem); line-height: 1.12; }
+  .booking-fields input, .booking-fields select, .booking-fields textarea, .availability-card input, .availability-card select { font-size: 1rem; min-width: 0; }
+  .booking-fields, .booking-fields label { min-width: 0; }
   .booking-layout { gap: 1.2rem; padding: 0 14px 4rem; }
   .booking-fields.two-columns, .tracking-form, .site-footer, .metric-grid { grid-template-columns: 1fr; }
   .booking-fields label.wide { grid-column: auto; }
